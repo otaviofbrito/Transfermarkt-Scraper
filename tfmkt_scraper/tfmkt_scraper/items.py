@@ -10,3 +10,10 @@ class TfmktScraperItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+
+class LeagueItem(scrapy.Item):
+    url = scrapy.Field()
+    league_name = scrapy.Field()
+    league_country = scrapy.Field()
+    league_current_mv = scrapy.Field()
