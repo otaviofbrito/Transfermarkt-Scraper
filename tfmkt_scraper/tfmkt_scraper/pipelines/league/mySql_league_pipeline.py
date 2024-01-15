@@ -16,21 +16,22 @@ class mySqlLeaguePipeline:
     
     #create league table if none exists
     self.cur.execute("""
-
       CREATE TABLE IF NOT EXISTS leagues(
-                     
-
-
+        id VARCHAR(15) PRIMARY KEY NOT NULL,
+        url VARCHAR(255) NOT NULL,                          
+        league_name VARCHAR(255) NOT NULL,
+        country VARCHAR(255) NOT NULL,
+        current_mv DOUBLE
       );
     """)
     
   def process_item(self, item, spider):
 
     self.cur.execute("""
-      INSERT INTO leagues(url, name, country, current_mv)
-      VALUES(%s, %s, %s, %s);
+      INSERT INTO leagues(id, url, league_name, country, current_mv)
+      VALUES(%s, %s, %s, %s, %s);
 
-    """, (item['url'], item['league_name'], item['league_country'], item['league_current_mv']))
+    """, (item['id'],item['url'], item['league_name'], item['league_country'], item['league_current_mv']))
 
     self.conn.commit()
     return item

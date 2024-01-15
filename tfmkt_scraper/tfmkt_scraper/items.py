@@ -13,6 +13,7 @@ class TfmktScraperItem(scrapy.Item):
 
 
 class LeagueItem(scrapy.Item):
+    id = scrapy.Field()
     url = scrapy.Field()
     league_name = scrapy.Field()
     league_country = scrapy.Field()
