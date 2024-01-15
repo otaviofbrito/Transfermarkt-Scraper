@@ -25,8 +25,8 @@ class EuropespiderSpider(scrapy.Spider):
 
 
     def parse_league_page(self, response, item):
-        league_name = response.css('h1.data-header__headline-wrapper.data-header__headline-wrapper--oswald::text').get().strip()
-        league_country =  response.css('span.data-header__club a::text').get().strip()
+        league_name = response.css('h1.data-header__headline-wrapper.data-header__headline-wrapper--oswald::text').get()
+        league_country =  response.css('span.data-header__club a::text').get()
         item['league_name'] = league_name
         item['league_country'] = league_country
         yield item
