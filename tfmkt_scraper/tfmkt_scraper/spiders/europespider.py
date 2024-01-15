@@ -6,9 +6,14 @@ class EuropespiderSpider(scrapy.Spider):
     name = "europespider"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = ["https://www.transfermarkt.com/wettbewerbe/europa"]
+
+    #Spider specific settings
     custom_settings = {
         'ITEM_PIPELINES': {
-             "tfmkt_scraper.pipelines.league_pipeline.LeagueScraperPipeline": 400,
+             "tfmkt_scraper.pipelines.league.league_pipeline.LeagueScraperPipeline": 300,
+        },
+        'FEEDS': {
+            './data/leagues.json': {'format': 'json', 'overwrite': True}
         }
     }
 
