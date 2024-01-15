@@ -63,7 +63,7 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "tfmkt_scraper.pipelines.TfmktScraperPipeline": 300,
+    "tfmkt_scraper.pipelines.default_pipeline.TfmktScraperPipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

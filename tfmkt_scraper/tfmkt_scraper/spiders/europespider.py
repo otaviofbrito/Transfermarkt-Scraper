@@ -6,6 +6,11 @@ class EuropespiderSpider(scrapy.Spider):
     name = "europespider"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = ["https://www.transfermarkt.com/wettbewerbe/europa"]
+    custom_settings = {
+        'ITEM_PIPELINES': {
+             "tfmkt_scraper.pipelines.league_pipeline.LeagueScraperPipeline": 400,
+        }
+    }
 
     def parse(self, response):
         table_rows = response.css('table.items tbody tr.odd, table.items tbody tr.even')

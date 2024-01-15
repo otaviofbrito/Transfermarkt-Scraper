@@ -10,6 +10,10 @@ from itemadapter import ItemAdapter
 
 class TfmktScraperPipeline:
     def process_item(self, item, spider):
+        pass
+
+class LeagueScraperPipeline:
+    def process_item(self, item, spider):
 
         adapter = ItemAdapter(item)
 
@@ -18,8 +22,6 @@ class TfmktScraperPipeline:
         for field_name in field_names:
             value = adapter.get(field_name)
             adapter[field_name] = value.strip()
-
-
 
         ##Convert current market value to float
         mv_keys = ['league_current_mv']
@@ -41,9 +43,5 @@ class TfmktScraperPipeline:
             else:
                 value = float(value)
             adapter[mv_key] = value
-
-
-
-
 
         return item
