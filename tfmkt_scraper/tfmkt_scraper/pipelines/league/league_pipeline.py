@@ -29,7 +29,7 @@ class LeagueScraperPipeline:
                 value = float(value)
                 value = value*1000000000
             else:
-                value = float(value)
+                value = float(0)
             adapter[mv_key] = value
 
         return item

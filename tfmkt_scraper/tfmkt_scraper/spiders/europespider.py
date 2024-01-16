@@ -1,12 +1,19 @@
 import scrapy
 import re
 from tfmkt_scraper.items import LeagueItem
+from scrapy.exceptions import DropItem
+
 
 
 class EuropespiderSpider(scrapy.Spider):
     name = "europespider"
     allowed_domains = ["www.transfermarkt.com"]
-    start_urls = ["https://www.transfermarkt.com/wettbewerbe/europa"]
+    start_urls = [
+                 "https://www.transfermarkt.com/wettbewerbe/europa",
+                 "https://www.transfermarkt.com/wettbewerbe/asien",
+                 "https://www.transfermarkt.com/wettbewerbe/amerika",
+                 "https://www.transfermarkt.com/wettbewerbe/afrika"
+                  ]
 
     # Spider specific settings
     custom_settings = {
@@ -33,6 +40,7 @@ class EuropespiderSpider(scrapy.Spider):
             league_item['league_current_mv'] = row.css(
                 'td.rechts.hauptlink::text').get()
             yield response.follow(league_url, callback=self.parse_league_page, cb_kwargs=dict(item=league_item))
+         
 
         next_page = response.css(
             'li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page ::attr(href)').get()
@@ -41,6 +49,11 @@ class EuropespiderSpider(scrapy.Spider):
             yield response.follow(next_page_url, callback=self.parse)
 
     def parse_league_page(self, response, item):
+        ## drop item if page is a cup instead of league
+        cup = response.css('li.data-header__label ::text').get()
+        if 'cup' in cup:
+            raise DropItem(f'**Item from cup page dropped: {item!r}')
+
         league_name = response.css(
             'h1.data-header__headline-wrapper.data-header__headline-wrapper--oswald::text').get()
         league_country = response.css('span.data-header__club a::text').get()
