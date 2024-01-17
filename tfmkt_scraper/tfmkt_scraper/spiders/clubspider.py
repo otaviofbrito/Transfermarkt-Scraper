@@ -1,6 +1,8 @@
 import scrapy
+import re
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
+from tfmkt_scraper.items import ClubItem
 
 
 class ClubspiderSpider(CrawlSpider):
@@ -20,7 +22,29 @@ class ClubspiderSpider(CrawlSpider):
 
    
     def parse_club(self, response):
-        yield{
-            'url': response.url
-        }
+       club_item = ClubItem()
+       url = response.url
+       ##extract the id from the url
+       regex_match_id = re.search(r'\/verein\/(\d+)', url, re.IGNORECASE)
+       club_id = regex_match_id.group(1)
+       club_item['id'] = club_id
+       club_item['url'] = url
+       
+       club_item['club_name'] = response.css('h1.data-header__headline-wrapper.data-header__headline-wrapper--oswald::text').get()
 
+       
+       league_path = response.css('span.data-header__club a::attr(href)').get()
+       if league_path:
+            regex_match_current_league_id = re.search(r'/wettbewerb/([A-Z0-9]+)$',  league_path, re.IGNORECASE)
+            league_id = regex_match_current_league_id.group(1)
+            club_item['current_league'] = league_id
+       else:
+            club_item['current_league'] = None
+
+
+       mv = response.xpath('//div[@class="data-header__box--small"]/a/text()').get()
+       ## get the 10 power value
+       if mv: 
+           mv_pow = response.xpath('//div[@class="data-header__box--small"]/a/text()').get()
+           club_item['current_mv'] = mv + mv_pow
+       club_item['current_mv'] = mv

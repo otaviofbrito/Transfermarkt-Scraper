@@ -1,4 +1,5 @@
 from itemadapter import ItemAdapter
+from tfmkt_scraper.utils import convert_mv
 
 class LeagueScraperPipeline:
     def process_item(self, item, spider):
@@ -16,20 +17,7 @@ class LeagueScraperPipeline:
         for mv_key in mv_keys:
             value = adapter.get(mv_key)
             value = value.replace('€', '')
-            if 'k' in value:
-                value = value.replace('k', '')
-                value = float(value)
-                value = value*1000
-            elif 'm' in value:
-                value = value.replace('m', '')
-                value = float(value)
-                value = value*1000000
-            elif 'bn' in value:
-                value = value.replace('bn', '')
-                value = float(value)
-                value = value*1000000000
-            else:
-                value = float(0)
+            convert_mv(value=value)
             adapter[mv_key] = value
 
         return item
