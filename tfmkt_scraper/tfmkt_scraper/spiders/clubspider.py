@@ -10,13 +10,17 @@ class ClubspiderSpider(CrawlSpider):
                  "https://www.transfermarkt.com/wettbewerbe/europa"]
 
     rules = (
-        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tbody/tr/td[2]/a'), follow=False),
-        Rule(LinkExtractor(restrict_xpaths='//li[@id="tables"]/div/div/div[2]/ul[@class="list_unstyled"]/li[last()-1]/a'), follow=False),
-        Rule(LinkExtractor(restrict_xpaths='//div[@class="large-3 small-12 columns"]/table/tbody/tr/td[last()]/a'), callback='parse_club', follow=False)
+        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny='/profil/spieler/'), follow=False, callback='parse_club'),
+        Rule(LinkExtractor(restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page', deny='/profil/spieler/'), follow=True),
+        Rule(LinkExtractor(restrict_xpaths='//div[@class="box tab-print"]/div[last()]/a'), follow=True),
+        Rule(LinkExtractor(restrict_xpaths='//div[@class="large-4 columns"]/div[@class="box"]/a[last()-1]'), follow=True),
+        Rule(LinkExtractor(restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club', follow=False)
     )
+
 
    
     def parse_club(self, response):
         yield{
-            'name': response.css('h1.data-header__headline-wrapper.data-header__headline-wrapper--oswald::text').get().strip()
+            'url': response.url
         }
+
