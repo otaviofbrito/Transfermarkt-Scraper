@@ -12,14 +12,23 @@ class ClubspiderSpider(CrawlSpider):
                  "https://www.transfermarkt.com/wettbewerbe/europa"]
 
     rules = (
-        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny='/profil/spieler/'), follow=False, callback='parse_club'),
+        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny='/profil/spieler/'), follow=True),
         Rule(LinkExtractor(restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page', deny='/profil/spieler/'), follow=True),
         Rule(LinkExtractor(restrict_xpaths='//div[@class="box tab-print"]/div[last()]/a'), follow=True),
         Rule(LinkExtractor(restrict_xpaths='//div[@class="large-4 columns"]/div[@class="box"]/a[last()-1]'), follow=True),
         Rule(LinkExtractor(restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club', follow=False)
     )
 
-
+      # Spider specific settings
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            "tfmkt_scraper.pipelines.club.club_pipeline.ClubScrapperPipeline": 300,
+            "tfmkt_scraper.pipelines.club.mySql_club_pipeline.MySqlClubPipeline": 400
+        },
+        'FEEDS': {
+            './data/clubs.json': {'format': 'json', 'overwrite': True}
+        }
+    }
    
     def parse_club(self, response):
        club_item = ClubItem()
@@ -44,7 +53,10 @@ class ClubspiderSpider(CrawlSpider):
 
        mv = response.xpath('//div[@class="data-header__box--small"]/a/text()').get()
        ## get the 10 power value
-       if mv: 
-           mv_pow = response.xpath('//div[@class="data-header__box--small"]/a/text()').get()
-           club_item['current_mv'] = mv + mv_pow
        club_item['current_mv'] = mv
+       if mv: 
+           mv_pow = response.xpath('//div[@class="data-header__box--small"]/a/span[last()]/text()').get()
+           club_item['current_mv'] = mv + mv_pow
+       
+
+       yield club_item 

@@ -50,9 +50,9 @@ COOKIES_ENABLED = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "tfmkt_scraper.middlewares.TfmktScraperDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    "tfmkt_scraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware": 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -93,7 +93,7 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 
-USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+#USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 # MY SQL SETTINGS
 MYSQL_HOST = "localhost"
@@ -111,3 +111,10 @@ MYSQL_DATABASE = "tfmkt_db"
 #SPIDER_MIDDLEWARES = {
 #    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 #}
+
+
+#SCRAPE OPS -CFG FAKE HEADERS
+SCRAPEOPS_API_KEY = '4bf0f201-a126-4646-baa6-d84d17f7531f'
+SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
+SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
+SCRAPEOPS_NUM_RESULTS = 5

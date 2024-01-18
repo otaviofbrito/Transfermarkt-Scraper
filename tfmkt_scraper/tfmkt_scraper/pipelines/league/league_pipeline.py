@@ -17,7 +17,7 @@ class LeagueScraperPipeline:
         for mv_key in mv_keys:
             value = adapter.get(mv_key)
             value = value.replace('€', '')
-            convert_mv(value=value)
+            value = convert_mv(value=value)
             adapter[mv_key] = value
 
         return item

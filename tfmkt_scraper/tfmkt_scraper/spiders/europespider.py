@@ -19,7 +19,7 @@ class EuropespiderSpider(scrapy.Spider):
     custom_settings = {
         'ITEM_PIPELINES': {
             "tfmkt_scraper.pipelines.league.league_pipeline.LeagueScraperPipeline": 300,
-            "tfmkt_scraper.pipelines.league.mySql_league_pipeline.mySqlLeaguePipeline": 400
+            "tfmkt_scraper.pipelines.league.mySql_league_pipeline.MySqlLeaguePipeline": 400
         },
         'FEEDS': {
             './data/leagues.json': {'format': 'json', 'overwrite': True}

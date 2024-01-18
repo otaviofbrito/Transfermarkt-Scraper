@@ -18,8 +18,7 @@ class ClubScrapperPipeline:
     for mv_key  in mv_keys:
       value = adapter.get(mv_key)
       if value:
-        convert_mv(value=value)
-        adapter[mv_key] = value
+        adapter[mv_key] = convert_mv(value=value)
       else:
         adapter[mv_key] = float(0)
 
@@ -28,6 +27,6 @@ class ClubScrapperPipeline:
     id_keys = ['id']
     for id_key in id_keys:
       id = adapter.get(id_key)
-      adapter[id] = int(id)
+      adapter[id_key] = int(id)
 
     return item
