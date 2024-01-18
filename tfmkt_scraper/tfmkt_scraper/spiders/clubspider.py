@@ -9,7 +9,11 @@ class ClubspiderSpider(CrawlSpider):
     name = "clubspider"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = [
-                 "https://www.transfermarkt.com/wettbewerbe/europa"]
+                 "https://www.transfermarkt.com/wettbewerbe/europa",
+                 "https://www.transfermarkt.com/wettbewerbe/asien",
+                 "https://www.transfermarkt.com/wettbewerbe/amerika",
+                 "https://www.transfermarkt.com/wettbewerbe/afrika"
+                  ]
 
     rules = (
         Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny='/profil/spieler/'), follow=True),
@@ -26,7 +30,8 @@ class ClubspiderSpider(CrawlSpider):
             "tfmkt_scraper.pipelines.club.mySql_club_pipeline.MySqlClubPipeline": 400
         },
         'FEEDS': {
-            './data/clubs.json': {'format': 'json', 'overwrite': True}
+            './data/clubs.jsonl': {'format': 'jsonlines', 'overwrite': True},
+            './data/clubs.csv': {'format': 'csv', 'overwrite': True}
         }
     }
    

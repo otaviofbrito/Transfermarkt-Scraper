@@ -5,8 +5,8 @@ from scrapy.exceptions import DropItem
 
 
 
-class EuropespiderSpider(scrapy.Spider):
-    name = "europespider"
+class LeagueSpider(scrapy.Spider):
+    name = "leaguespider"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = [
                  "https://www.transfermarkt.com/wettbewerbe/europa",
@@ -22,7 +22,8 @@ class EuropespiderSpider(scrapy.Spider):
             "tfmkt_scraper.pipelines.league.mySql_league_pipeline.MySqlLeaguePipeline": 400
         },
         'FEEDS': {
-            './data/leagues.json': {'format': 'json', 'overwrite': True}
+            './data/leagues.jsonl': {'format': 'jsonlines', 'overwrite': True},
+            './data/leagues.csv': {'format': 'csv', 'overwrite': True, 'fields': ['id', 'url', 'league_name', 'league_country', 'league_current_mv']}
         }
     }
 
