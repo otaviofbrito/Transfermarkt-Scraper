@@ -50,7 +50,7 @@ class LeagueSpider(scrapy.Spider):
             yield response.follow(next_page_url, callback=self.parse)
 
     def parse_league_page(self, response, item):
-        ## drop item if page is a cup instead of league
+        ## drop item if page is a cup instead of league <<< ## TODO CHECK THIS VALLIDATION
         cup = response.css('li.data-header__label ::text').get()
         if 'cup' in cup:
             raise DropItem(f'**Item from cup page dropped: {item!r}')
