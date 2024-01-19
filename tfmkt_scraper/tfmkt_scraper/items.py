@@ -25,3 +25,8 @@ class ClubItem(scrapy.Item):
     club_name = scrapy.Field()
     current_league = scrapy.Field()
     current_mv = scrapy.Field()
+
+class ClubLeagueItem(scrapy.Item):
+    club_id = scrapy.Field()
+    league_id = scrapy.Field()
+    season = scrapy.Field()

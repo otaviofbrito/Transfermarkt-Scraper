@@ -35,7 +35,7 @@ class LeagueSpider(scrapy.Spider):
             league_realtive_url = row.css('a').attrib['href']
             league_url = 'https://www.transfermarkt.com' + league_realtive_url
             regex_match_id = re.search(
-                r'/wettbewerb/([A-Z0-9]+)$', league_url, re.IGNORECASE)
+                r'/wettbewerb/([A-Z0-9]+)$', league_url, re.IGNORECASE) ##TODO : RESPONSE.URL
             league_item['id'] = regex_match_id.group(1)
             league_item['url'] = league_url
             league_item['league_current_mv'] = row.css(
