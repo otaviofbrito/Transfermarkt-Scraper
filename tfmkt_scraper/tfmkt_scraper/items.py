@@ -30,3 +30,7 @@ class ClubLeagueItem(scrapy.Item):
     club_id = scrapy.Field()
     league_id = scrapy.Field()
     season = scrapy.Field()
+    squad = scrapy.Field()
+    market_value = scrapy.Field()
+
+    ##TODO: save league and clubs logo
