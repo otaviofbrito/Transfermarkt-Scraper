@@ -16,8 +16,10 @@ class LeagueScraperPipeline:
         mv_keys = ['league_current_mv']
         for mv_key in mv_keys:
             value = adapter.get(mv_key)
-            value = value.replace('€', '')
-            value = convert_mv(value=value)
-            adapter[mv_key] = value
+            if value:
+              value = value.replace('€', '')
+              value = convert_mv(value=value)
+              adapter[mv_key] = value
+            else: adapter[mv_key] = float(0)
 
         return item

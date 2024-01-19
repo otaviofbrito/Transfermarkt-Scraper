@@ -22,6 +22,14 @@ class Club_LeagueSpider(CrawlSpider):
              deny=[r'/profil/spieler/', r'/pokalwettbewerb/']), follow=True)
     )
 
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            "tfmkt_scraper.pipelines.club_league.club_league_pipeline.ClubLeagueScraperPipeline": 300,
+            #"tfmkt_scraper.pipelines.club.mySql_club_pipeline.MySqlClubPipeline": 400
+        }
+    }
+   
+
     def parse_league_page(self, response):
         if 'pokalwettbewerb' in response.url:
             print("***********>cup ignored")

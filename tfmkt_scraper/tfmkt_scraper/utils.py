@@ -1,3 +1,5 @@
+from itemadapter import ItemAdapter
+
 def convert_mv(value) -> float:
     if 'k' in value:
         value = value.replace('k', '')
@@ -15,3 +17,10 @@ def convert_mv(value) -> float:
         value = float(0)
 
     return value
+
+
+
+def convert_item_str_to_int(adapter:ItemAdapter, keys):
+    for key in keys:
+        value = adapter.get(key)
+        if  value: adapter[key] = int(value)
