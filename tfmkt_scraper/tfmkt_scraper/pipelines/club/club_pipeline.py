@@ -1,5 +1,5 @@
 from itemadapter import ItemAdapter
-from tfmkt_scraper.utils import convert_mv
+from tfmkt_scraper.utils import convert_mv, convert_item_str_to_int
 
 
 class ClubScrapperPipeline:
@@ -25,8 +25,6 @@ class ClubScrapperPipeline:
 
     ##Convert club ID to int
     id_keys = ['id']
-    for id_key in id_keys:
-      id = adapter.get(id_key)
-      adapter[id_key] = int(id)
+    convert_item_str_to_int(adapter=adapter, keys=id_keys)
 
     return item
