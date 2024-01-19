@@ -25,7 +25,7 @@ class Club_LeagueSpider(CrawlSpider):
     custom_settings = {
         'ITEM_PIPELINES': {
             "tfmkt_scraper.pipelines.club_league.club_league_pipeline.ClubLeagueScraperPipeline": 300,
-            #"tfmkt_scraper.pipelines.club.mySql_club_pipeline.MySqlClubPipeline": 400
+            "tfmkt_scraper.pipelines.club_league.mySql_club_league_pipeline.MySqlClub_LeaguePipeline": 400
         }
     }
    
