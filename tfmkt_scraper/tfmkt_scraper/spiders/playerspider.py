@@ -2,7 +2,7 @@ import scrapy
 import re
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-from tfmkt_scraper.items import ClubItem
+from tfmkt_scraper.items import PlayerItem
 
 
 class PlayerSpider(CrawlSpider):
@@ -36,6 +36,38 @@ class PlayerSpider(CrawlSpider):
 
 
     def parse_player(self, response):
-        yield {
-            'url': response.url
-        }
+        item = PlayerItem()
+        player_url = response.url
+        regex_match_payer_id = re.search(r'\/profil\/spieler\/(\d+)', player_url, re.IGNORECASE)
+        item['id'] = regex_match_payer_id.group(1)
+        item['url'] = player_url
+
+        item['name'] = response.xpath('//img[@class="data-header__profile-image"]/@alt').get()
+        item['full_name'] = response.xpath("//span[text()='Name in home country:' or text()='Full name:']/following::span[1]/text()").get()
+        item['birth_date'] = response.xpath("//span[@itemprop='birthDate']/text()").get()
+        item['death_date'] = response.xpath("//span[@itemprop='deathDate']/text()").get()
+        item['height'] = response.xpath("//span[@itemprop='height']/text()").get()
+       
+        citizenship = response.xpath("//span[text()='Citizenship:']/following::span[1]/img/@title").getall()
+        if len(citizenship) > 1:
+          item['citizenship_1'] = citizenship[0] 
+          item['citizenship_2'] = citizenship[1]
+
+        item['foot'] =  response.xpath("//span[text()='Foot:']/following::span[1]/text()").get()
+        item['agent'] = response.xpath("//span[text()='Player agent:']/following::span[1]/a/text()").get()
+
+        current_club_url =  response.xpath('//span[@class="data-header__club"]/a/@href').get()
+        
+        if current_club_url:
+          regex_match_id = re.search(r'\/verein\/(\d+)', current_club_url, re.IGNORECASE)
+          item['current_club'] = regex_match_id.group(1)
+        else: item['current_club'] = None
+
+
+        item['outfitter'] =  response.xpath("//span[text()='Outfitter:']/following::span[1]/text()").get()
+
+        position = response.xpath("//span[text()='Position:']/following::span[1]/text()").get()
+        item['main_position'] = position
+
+        
+        yield item

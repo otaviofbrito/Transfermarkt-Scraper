@@ -44,7 +44,20 @@ class TransferItem(scrapy.Item):
     
     
     
+class PlayerItem(scrapy.Item):
+    id = scrapy.Field()
+    url = scrapy.Field()
+    name = scrapy.Field()
+    full_name = scrapy.Field()
+    birth_date = scrapy.Field()
+    death_date = scrapy.Field()
+    height = scrapy.Field()
+    citizenship_1 = scrapy.Field()
+    citizenship_2 = scrapy.Field()
+    foot = scrapy.Field()
+    agent = scrapy.Field()
+    current_club = scrapy.Field()    
+    outfitter = scrapy.Field()
+    main_position = scrapy.Field()
     
-
-
 ##TODO: save league and clubs logo
