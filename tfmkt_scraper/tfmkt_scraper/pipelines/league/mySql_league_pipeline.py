@@ -38,7 +38,7 @@ class MySqlLeaguePipeline:
         url VARCHAR(255) NOT NULL,                          
         league_name VARCHAR(255) NOT NULL,
         country VARCHAR(255) NOT NULL,
-        current_mv DOUBLE
+        current_mv BIGINT NOT NULL
       );
     """)
     self.conn.commit()

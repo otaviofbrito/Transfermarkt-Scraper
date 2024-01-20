@@ -38,7 +38,7 @@ class MySqlClubPipeline:
         url VARCHAR(255) NOT NULL,                          
         club_name VARCHAR(255) NOT NULL,
         id_current_league VARCHAR(15),
-        current_mv DOUBLE NOT NULL     
+        current_mv BIGINT NOT NULL     
       );
     """)
     self.conn.commit()

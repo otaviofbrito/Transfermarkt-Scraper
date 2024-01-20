@@ -35,7 +35,6 @@ class Club_LeagueSpider(CrawlSpider):
             print("***********>cup ignored")
             return
         
-
         league_url = response.url
         regex_match_league_id = re.search(
             r'/wettbewerb/([A-Z0-9]+)', league_url, re.IGNORECASE)
@@ -53,10 +52,8 @@ class Club_LeagueSpider(CrawlSpider):
             season_url = league_url + '/plus/?saison_id=' + season
             yield response.follow(season_url, callback=self.parse_club_league, cb_kwargs=dict(partial_data={'league_id': league_id, 'season': season}))
 
-    def parse_club_league(self, response, partial_data):
 
-        
-        
+    def parse_club_league(self, response, partial_data):
         table_rows = response.xpath('//div[@id="yw1"]/table/tbody/tr')
         for row in table_rows:
             item = ClubLeagueItem()

@@ -20,7 +20,7 @@ class ClubScrapperPipeline:
       if value:
         adapter[mv_key] = convert_mv(value=value)
       else:
-        adapter[mv_key] = float(0)
+        adapter[mv_key] = 0
 
 
     ##Convert club ID to int

@@ -1,11 +1,12 @@
 import scrapy
 import re
 from tfmkt_scraper.items import LeagueItem
-from scrapy.exceptions import DropItem
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 
 
 
-class LeagueSpider(scrapy.Spider):
+class LeagueSpider(CrawlSpider):
     name = "leaguespider"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = [
@@ -14,6 +15,11 @@ class LeagueSpider(scrapy.Spider):
                  "https://www.transfermarkt.com/wettbewerbe/amerika",
                  "https://www.transfermarkt.com/wettbewerbe/afrika"
                   ]
+    
+    rules = (
+        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a',  deny=['/profil/spieler/', '/pokalwettbewerb/']), follow=False, callback='parse_league_page'),
+        Rule(LinkExtractor(restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page', deny=['/profil/spieler/', '/pokalwettbewerb/']), follow=True),
+    )
 
     # Spider specific settings
     custom_settings = {
@@ -27,37 +33,29 @@ class LeagueSpider(scrapy.Spider):
         }
     }
 
-    def parse(self, response):
-        table_rows = response.css(
-            'table.items tbody tr.odd, table.items tbody tr.even')
-        for row in table_rows:
-            league_item = LeagueItem()
-            league_realtive_url = row.css('a').attrib['href']
-            league_url = 'https://www.transfermarkt.com' + league_realtive_url
-            regex_match_id = re.search(
-                r'/wettbewerb/([A-Z0-9]+)$', league_url, re.IGNORECASE) ##TODO : RESPONSE.URL
-            league_item['id'] = regex_match_id.group(1)
-            league_item['url'] = league_url
-            league_item['league_current_mv'] = row.css(
-                'td.rechts.hauptlink::text').get()
-            yield response.follow(league_url, callback=self.parse_league_page, cb_kwargs=dict(item=league_item))
-         
-
-        next_page = response.css(
-            'li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page ::attr(href)').get()
-        if next_page is not None:
-            next_page_url = 'https://www.transfermarkt.com' + next_page
-            yield response.follow(next_page_url, callback=self.parse)
-
-    def parse_league_page(self, response, item):
-        ## drop item if page is a cup instead of league <<< ## TODO CHECK THIS VALLIDATION
-        cup = response.css('li.data-header__label ::text').get()
-        if 'cup' in cup:
-            raise DropItem(f'**Item from cup page dropped: {item!r}')
+    def parse_league_page(self, response):
+        ## ignore cup pages
+        league_url = response.url
+        if 'pokalwettbewerb' in league_url:
+            print("***********>cup ignored")
+            return 
+        league_item = LeagueItem()
+        
+        regex_match_id = re.search(r'/wettbewerb/([A-Z0-9]+)', league_url, re.IGNORECASE) 
+        league_item['id'] = regex_match_id.group(1)
+        league_item['url'] = league_url
 
         league_name = response.css(
             'h1.data-header__headline-wrapper.data-header__headline-wrapper--oswald::text').get()
         league_country = response.css('span.data-header__club a::text').get()
-        item['league_name'] = league_name
-        item['league_country'] = league_country
-        yield item
+        league_item['league_name'] = league_name
+        league_item['league_country'] = league_country
+
+        mv = response.xpath('//div[@class="data-header__box--small"]/a/text()[2]').get()
+        ## get the 10 power value
+        league_item['league_current_mv'] = mv
+        if mv: 
+           mv_pow = response.xpath('//div[@class="data-header__box--small"]/a/span[last()]/text()').get()
+           league_item['league_current_mv'] = mv + mv_pow
+
+        yield league_item

@@ -37,7 +37,7 @@ class MySqlClub_LeaguePipeline:
         league_id VARCHAR(15) NOT NULL,
         season INT NOT NULL,
         squad INT,
-        market_value DOUBLE,
+        market_value BIGINT NOT NULL,
         PRIMARY KEY(club_id, league_id, season)
       );
     """)

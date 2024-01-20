@@ -21,6 +21,6 @@ class LeagueScraperPipeline:
               value = value.replace('€', '')
               value = convert_mv(value=value)
               adapter[mv_key] = value
-            else: adapter[mv_key] = float(0)
+            else: adapter[mv_key] = 0
 
         return item
