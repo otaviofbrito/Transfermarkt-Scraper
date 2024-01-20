@@ -33,4 +33,18 @@ class ClubLeagueItem(scrapy.Item):
     squad = scrapy.Field()
     market_value = scrapy.Field()
 
-    ##TODO: save league and clubs logo
+
+class TransferItem(scrapy.Item):
+    player_id = scrapy.Field()
+    date = scrapy.Field()
+    left_club_id = scrapy.Field()
+    joined_club_id = scrapy.Field()
+    transfer_fee = scrapy.Field()
+    is_loan = scrapy.Field()  #0 - not loan, 1- loan, 2- end of loan
+    
+    
+    
+    
+
+
+##TODO: save league and clubs logo
