@@ -55,7 +55,21 @@ class MySqlPlayerPipeline:
     def process_item(self, item, spider):
         try:
             self.cur.execute("""
-      INSERT INTO players(id, url, name, full_name, birth_date, death_date, height, citizenship_1, citizenship_2, foot, agent, current_club_id, outfitter, main_position, current_mv)
+      INSERT INTO players(
+                              id,
+                              url,
+                              name,
+                              full_name,
+                              birth_date,
+                              death_date,
+                              height,
+                              citizenship_1,
+                              citizenship_2,
+                              foot, agent,
+                              current_club_id,
+                              outfitter, main_position,
+                              current_mv
+                        )
       VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
       """, (
                 item['id'],

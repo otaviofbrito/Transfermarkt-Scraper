@@ -26,6 +26,10 @@ class Club_LeagueSpider(CrawlSpider):
         'ITEM_PIPELINES': {
             "tfmkt_scraper.pipelines.club_league.club_league_pipeline.ClubLeagueScraperPipeline": 300,
             "tfmkt_scraper.pipelines.club_league.mySql_club_league_pipeline.MySqlClub_LeaguePipeline": 400
+        },
+        'FEEDS': {
+            './data/club_league.jsonl': {'format': 'jsonlines', 'overwrite': True},
+            './data/club_league.csv': {'format': 'csv', 'overwrite': True, 'fields': ['club_id', 'league_id', 'season', 'squad', 'market_value']}
         }
     }
    
