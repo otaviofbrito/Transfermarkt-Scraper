@@ -1,4 +1,5 @@
 from itemadapter import ItemAdapter
+import re
 
 def convert_mv(value) -> int:
     if 'k' in value:
@@ -24,3 +25,12 @@ def convert_item_str_to_int(adapter:ItemAdapter, keys):
     for key in keys:
         value = adapter.get(key)
         if  value: adapter[key] = int(value)
+
+
+def get_club_id(url):
+    regex_match_id = re.search(r'\/verein\/(\d+)', url, re.IGNORECASE)
+    return regex_match_id.group(1)
+
+def get_player_id(url):
+    regex_match_payer_id = re.search(r'\/profil\/spieler\/(\d+)', url, re.IGNORECASE)
+    return regex_match_payer_id.group(1)

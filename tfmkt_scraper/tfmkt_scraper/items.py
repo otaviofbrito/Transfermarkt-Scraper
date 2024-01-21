@@ -36,11 +36,11 @@ class ClubLeagueItem(scrapy.Item):
 
 class TransferItem(scrapy.Item):
     player_id = scrapy.Field()
-    date = scrapy.Field()
+    year = scrapy.Field()
     left_club_id = scrapy.Field()
     joined_club_id = scrapy.Field()
     transfer_fee = scrapy.Field()
-    is_loan = scrapy.Field()  #0 - not loan, 1- loan, 2- end of loan
+    transfer_type = scrapy.Field()  #0 - not loan, 1- loan, 2- end of loan, 3- unknown
     
     
     
