@@ -29,6 +29,14 @@ class PlayerSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r'\/profil\/spieler\/(\d+)$'), callback='parse_player', follow=False)
     )
 
+
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            "tfmkt_scraper.pipelines.player.player_pipeline.PlayerScraperPipeline": 300,
+            "tfmkt_scraper.pipelines.player.mySql_player_pipeline.MySqlPlayerPipeline": 400
+        }
+    }
+
     def parse_club(self, response):
         club_url = response.url
         players_url = re.sub(r'startseite', 'alumni', club_url)
@@ -49,8 +57,12 @@ class PlayerSpider(CrawlSpider):
         item['height'] = response.xpath("//span[@itemprop='height']/text()").get()
        
         citizenship = response.xpath("//span[text()='Citizenship:']/following::span[1]/img/@title").getall()
+        
+        item['citizenship_1'] = None 
+        item['citizenship_2'] = None 
+        if len(citizenship) > 0:
+           item['citizenship_1'] = citizenship[0] 
         if len(citizenship) > 1:
-          item['citizenship_1'] = citizenship[0] 
           item['citizenship_2'] = citizenship[1]
 
         item['foot'] =  response.xpath("//span[text()='Foot:']/following::span[1]/text()").get()
@@ -66,8 +78,14 @@ class PlayerSpider(CrawlSpider):
 
         item['outfitter'] =  response.xpath("//span[text()='Outfitter:']/following::span[1]/text()").get()
 
-        position = response.xpath("//span[text()='Position:']/following::span[1]/text()").get()
-        item['main_position'] = position
-
+        item['main_position'] = response.xpath("//span[text()='Position:']/following::span[1]/text()").get()
         
+
+        mv = response.xpath('//div[@class="data-header__box--small"]/a/text()').get()
+        ## get the 10 power value
+        item['current_mv'] = mv
+        if mv: 
+           mv_pow = response.xpath('//div[@class="data-header__box--small"]/a/span[last()]/text()').get()
+           item['current_mv'] = mv + mv_pow
+       
         yield item

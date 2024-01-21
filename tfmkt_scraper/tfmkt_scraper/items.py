@@ -59,5 +59,6 @@ class PlayerItem(scrapy.Item):
     current_club = scrapy.Field()    
     outfitter = scrapy.Field()
     main_position = scrapy.Field()
+    current_mv = scrapy.Field()
     
 ##TODO: save league and clubs logo
