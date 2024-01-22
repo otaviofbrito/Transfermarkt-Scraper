@@ -37,23 +37,7 @@ class PlayerSpider(CrawlSpider):
         },
         'FEEDS': {
             './data/player.jsonl': {'format': 'jsonlines', 'overwrite': True},
-            './data/player.csv': {'format': 'csv', 'overwrite': True, 'fields': [
-                'id',
-                'url',
-                'name',
-                'full_name',
-                'birth_date',
-                'death_date',
-                'height',
-                'citizenship_1',
-                'citizenship_2',
-                'foot',
-                'agent',
-                'current_club',
-                'outfitter',
-                'main_position',
-                'current_mv'
-            ]}
+            './data/player.csv': {'format': 'csv', 'overwrite': True}
         }
     }
 

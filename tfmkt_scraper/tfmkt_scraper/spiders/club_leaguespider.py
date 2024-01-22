@@ -29,7 +29,7 @@ class Club_LeagueSpider(CrawlSpider):
         },
         'FEEDS': {
             './data/club_league.jsonl': {'format': 'jsonlines', 'overwrite': True},
-            './data/club_league.csv': {'format': 'csv', 'overwrite': True, 'fields': ['club_id', 'league_id', 'season', 'squad', 'market_value']}
+            './data/club_league.csv': {'format': 'csv', 'overwrite': True}
         }
     }
    

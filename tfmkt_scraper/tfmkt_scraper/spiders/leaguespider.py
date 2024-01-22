@@ -29,7 +29,7 @@ class LeagueSpider(CrawlSpider):
         },
         'FEEDS': {
             './data/leagues.jsonl': {'format': 'jsonlines', 'overwrite': True},
-            './data/leagues.csv': {'format': 'csv', 'overwrite': True, 'fields': ['id', 'url', 'league_name', 'league_country', 'league_current_mv']}
+            './data/leagues.csv': {'format': 'csv', 'overwrite': True}
         }
     }
 
