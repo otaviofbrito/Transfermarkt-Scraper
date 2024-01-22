@@ -4,6 +4,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from tfmkt_scraper.items import TransferItem
 from tfmkt_scraper.utils import get_club_id, get_player_id
+import logging
 
 class TransferSpider(CrawlSpider):
     name = "transferspider"
@@ -32,10 +33,14 @@ class TransferSpider(CrawlSpider):
         'FEEDS': {
              './data/transfers.jsonl': {'format': 'jsonlines', 'overwrite': True},
              './data/transfers.csv': {'format': 'csv', 'overwrite': True}
-        }
+        },
+        'LOG_LEVEL': 'ERROR',
+        'LOG_FORMAT' : '%(levelname)s: %(message)s',
+        'LOG_FILE': 'transfer_log.txt'
     }
 
-    
+    logging.getLogger().addHandler(logging.StreamHandler())
+
 
     
     
