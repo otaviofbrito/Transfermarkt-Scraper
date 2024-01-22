@@ -26,14 +26,16 @@ class TransferSpider(CrawlSpider):
     # Spider specific settings
     custom_settings = {
         'ITEM_PIPELINES': {
-            # "tfmkt_scraper.pipelines.club.club_pipeline.ClubScrapperPipeline": 300,
-            # "tfmkt_scraper.pipelines.club.mySql_club_pipeline.MySqlClubPipeline": 400
+             "tfmkt_scraper.pipelines.transfer.transfer_pipeline.TransferScraperPipeline": 300,
+             "tfmkt_scraper.pipelines.transfer.mySql_transfer_pipeline.MySqlTransferPipeline": 400,
         },
         'FEEDS': {
-            # './data/transfers.jsonl': {'format': 'jsonlines', 'overwrite': True},
-            # './data/transfers.csv': {'format': 'csv', 'overwrite': True}
+             './data/transfers.jsonl': {'format': 'jsonlines', 'overwrite': True},
+             './data/transfers.csv': {'format': 'csv', 'overwrite': True}
         }
     }
+
+    
 
     
     
@@ -72,6 +74,8 @@ class TransferSpider(CrawlSpider):
               away_club_url = row.xpath('td[3]/a/@href').get()
               if away_club_url:
                 away_club_id = get_club_id(away_club_url)
+              else:
+                 away_club_id = -5 #retired
 
               if 'Arrivals' in table_header:
                 transfer_item['joined_club_id'] = club_id
@@ -105,7 +109,7 @@ class TransferSpider(CrawlSpider):
                  transfer_item['transfer_fee'] = 0
                  transfer_item['transfer_type'] = 3
 
-                 
+
               yield transfer_item
 
               
