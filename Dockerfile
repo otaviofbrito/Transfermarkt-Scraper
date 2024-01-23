@@ -11,4 +11,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . . 
 
-RUN /bin/bash -c 
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
