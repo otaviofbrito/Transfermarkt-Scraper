@@ -36,7 +36,7 @@ class TransferSpider(CrawlSpider):
         },
         'LOG_LEVEL': 'ERROR',
         'LOG_FORMAT' : '%(levelname)s: %(message)s',
-        'LOG_FILE': 'transfer_log.txt'
+        'LOG_FILE': './log/transfer_log.txt'
     }
 
     logging.getLogger().addHandler(logging.StreamHandler())
