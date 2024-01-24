@@ -96,10 +96,10 @@ FEED_EXPORT_ENCODING = "utf-8"
 #USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 # MY SQL SETTINGS
-MYSQL_HOST = "localhost" #"mysql_db"
-MYSQL_USER = "root"
-MYSQL_PASSWORD = "123456"
-MYSQL_DATABASE = "tfmkt_db"#"tm_db"
+MYSQL_HOST = "mysql_db"
+MYSQL_USER = "user"
+MYSQL_PASSWORD = "user"
+MYSQL_DATABASE = "tm_db"
 
 #SPLASH CONFIG
 #SPLASH_URL = 'http://localhost:8050'
@@ -114,7 +114,7 @@ MYSQL_DATABASE = "tfmkt_db"#"tm_db"
 
 
 #SCRAPE OPS -CFG FAKE HEADERS
-SCRAPEOPS_API_KEY = '4bf0f201-a126-4646-baa6-d84d17f7531f'
+SCRAPEOPS_API_KEY = '4bf0f201-a126-4646-baa6-d84d17f7531f' #APIKEY SCRAPEOPS
 SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
 SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
 SCRAPEOPS_NUM_RESULTS = 5
