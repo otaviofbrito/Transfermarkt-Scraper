@@ -1,6 +1,4 @@
 import mysql.connector
-from mysql.connector import errorcode
-from scrapy.exceptions import DropItem
 
 
 class MySqlConnectionPipeline:
@@ -21,7 +19,6 @@ class MySqlConnectionPipeline:
         )
 
     def open_spider(self, spider):
-        print("------------------------------------------------>>OPPENDED")
         self.conn = mysql.connector.connect(
             host=self.host,
             user=self.user,
@@ -108,6 +105,5 @@ class MySqlConnectionPipeline:
 
     def close_spider(self, spider):
         # close cursor and db connection
-        print("------------------------------------------------>>CLOSED")
         self.cur.close()
         self.conn.close()
