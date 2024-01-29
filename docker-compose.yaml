@@ -19,6 +19,9 @@ services:
 
   scrap_app:
     build: .
+    environment:
+        #Fill this field with your key from https://scrapeops.io/app/headers
+      - API_KEY=YOUR_API_KEY
     depends_on:
       - mysql_db
 
