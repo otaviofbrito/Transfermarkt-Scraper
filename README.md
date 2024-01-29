@@ -65,6 +65,10 @@ To run locally install the dependencies listed in [requirements.txt](/requiremen
 pip3 install requirements.txt
 ```
 
+> :warning: **This project uses [ScrapeOps](https://scrapeops.io) fake headers**: In order to run the application you must provide an api key that can be generated [here](https://scrapeops.io/app/headers). 
+ >>Inside [docker_compose.yaml](/docker-compose.yaml) set the environment variable `API_KEY` to your actual key.\
+ >>If running locally, go directly to [settings.py](/tfmkt_scraper/tfmkt_scraper/settings.py) and set your scrape ops api key.
+
 ### Docker
 ```console
 docker compose up
