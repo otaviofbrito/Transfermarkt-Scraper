@@ -32,8 +32,8 @@ class PlayerSpider(CrawlSpider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            "tfmkt_scraper.pipelines.player.player_pipeline.PlayerScraperPipeline": 300
-            #"tfmkt_scraper.pipelines.player.mySql_player_pipeline.MySqlPlayerPipeline": 400
+            "tfmkt_scraper.pipelines.player.player_pipeline.PlayerScraperPipeline": 300,
+            "tfmkt_scraper.pipelines.player.mySql_player_pipeline.MySqlPlayerPipeline": 400
         },
         'FEEDS': {
             './data/player.jsonl': {'format': 'jsonlines', 'overwrite': True},
