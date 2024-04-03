@@ -17,7 +17,7 @@ class PlayerSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(
-            restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a',  deny=['/pokalwettbewerb/']), follow=True),
+            restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny=['/pokalwettbewerb/']), follow=True),
         Rule(LinkExtractor(
             restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page'), follow=True),
         Rule(LinkExtractor(
@@ -25,15 +25,15 @@ class PlayerSpider(CrawlSpider):
         Rule(LinkExtractor(
             restrict_xpaths='//div[@class="large-4 columns"]/div[@class="box"]/a[last()-1]'), follow=True),
         Rule(LinkExtractor(
-            restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club', follow=True),
+            restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club'),
         Rule(LinkExtractor(allow=r'\/profil\/spieler\/(\d+)$'),
-             callback='parse_player', follow=False)
+             callback='parse_player')
     )
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            "tfmkt_scraper.pipelines.player.player_pipeline.PlayerScraperPipeline": 300,
-            "tfmkt_scraper.pipelines.player.mySql_player_pipeline.MySqlPlayerPipeline": 400
+            "tfmkt_scraper.pipelines.player.player_pipeline.PlayerScraperPipeline": 300
+            #"tfmkt_scraper.pipelines.player.mySql_player_pipeline.MySqlPlayerPipeline": 400
         },
         'FEEDS': {
             './data/player.jsonl': {'format': 'jsonlines', 'overwrite': True},
@@ -44,7 +44,7 @@ class PlayerSpider(CrawlSpider):
     def parse_club(self, response):
         club_url = response.url
         players_url = re.sub(r'startseite', 'alumni', club_url)
-        response.follow(players_url)
+        yield response.follow(players_url)
 
     def parse_player(self, response):
         item = PlayerItem()
