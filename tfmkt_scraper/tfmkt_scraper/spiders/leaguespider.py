@@ -17,7 +17,7 @@ class LeagueSpider(CrawlSpider):
                   ]
     
     rules = (
-        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a',  deny=['/profil/spieler/', '/pokalwettbewerb/']), follow=False, callback='parse_league_page'),
+        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny=['/profil/spieler/', '/pokalwettbewerb/']), follow=False, callback='parse_league_page'),
         Rule(LinkExtractor(restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page', deny=['/profil/spieler/', '/pokalwettbewerb/']), follow=True),
     )
 

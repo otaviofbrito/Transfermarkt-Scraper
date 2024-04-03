@@ -3,6 +3,7 @@ from tfmkt_scraper.utils import convert_mv, convert_item_str_to_int
 import re
 import datetime
 
+
 class PlayerScraperPipeline:
     def process_item(self, item, spider):
 
@@ -27,7 +28,6 @@ class PlayerScraperPipeline:
         id_keys = ['id', 'current_club']
         convert_item_str_to_int(adapter=adapter, keys=id_keys)
 
-
         # Convert height to cm
         height_keys = ['height']
         for height_key in height_keys:
@@ -38,24 +38,33 @@ class PlayerScraperPipeline:
                 value = int(value)
                 adapter[height_key] = value
 
-
         # Convert birth_date
         # remove age
         date_keys = ['birth_date']
         for date_key in date_keys:
             date = adapter.get(date_key)
             if date:
-                date = re.sub(r'\(\d+\)', '', date).strip()
-                date = datetime.datetime.strptime(date, '%b %d, %Y').strftime('%Y-%m-%d')
-                adapter[date_key] = date
-
+                date = re.sub(r'\([^()]*\)', '', date).strip()
+                try:
+                    date = datetime.datetime.strptime(
+                        date, '%b %d, %Y').strftime('%Y-%m-%d')
+                    adapter[date_key] = date
+                except ValueError:
+                    # If date only contains year, set it to None
+                    adapter[date_key] = None
 
         # Convert death_date
         date_keys = ['death_date']
         for date_key in date_keys:
             date = adapter.get(date_key)
             if date:
-                date = re.sub(r'\(\d+\)', '', date).strip()
-                date = datetime.datetime.strptime(date, '%d.%m.%Y').strftime('%Y-%m-%d')
-                adapter[date_key] = date
+                date = re.sub(r'\([^()]*\)', '', date).strip()
+                try:
+                    date = datetime.datetime.strptime(
+                        date, '%d.%m.%Y').strftime('%Y-%m-%d')
+                    adapter[date_key] = date
+                except ValueError:
+                    # If date only contains year, set it to None
+                    adapter[date_key] = None
+
         return item
