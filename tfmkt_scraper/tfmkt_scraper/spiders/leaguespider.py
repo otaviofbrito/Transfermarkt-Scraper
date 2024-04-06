@@ -17,8 +17,8 @@ class LeagueSpider(CrawlSpider):
                   ]
     
     rules = (
-        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny=['/profil/spieler/', '/pokalwettbewerb/']), follow=False, callback='parse_league_page'),
-        Rule(LinkExtractor(restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page', deny=['/profil/spieler/', '/pokalwettbewerb/']), follow=True),
+        Rule(LinkExtractor(restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny=['/profil/spieler/', '/pokalwettbewerb/']), callback='parse_league_page'),
+        Rule(LinkExtractor(restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page'), follow=True),
     )
 
     # Spider specific settings
@@ -36,7 +36,7 @@ class LeagueSpider(CrawlSpider):
     def parse_league_page(self, response):
         ## ignore cup pages
         league_url = response.url
-        if 'pokalwettbewerb' in league_url:
+        if '/pokalwettbewerb/' in league_url:
             print("***********>cup ignored")
             return 
         league_item = LeagueItem()
