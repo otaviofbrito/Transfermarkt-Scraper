@@ -1,4 +1,3 @@
-import os
 BOT_NAME = "tfmkt"
 
 SPIDER_MODULES = ["tfmkt_scraper.spiders"]
@@ -24,11 +23,6 @@ MYSQL_PASSWORD = "user"
 MYSQL_DATABASE = "tm_db"
 
 
-SCRAPEOPS_API_KEY = os.getenv('API_KEY', None)
-# SCRAPE OPS -CFG FAKE HEADERS
-SCRAPEOPS_FAKE_USER_AGENT_ENDPOINT = 'https://headers.scrapeops.io/v1/user-agents'
-SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
-SCRAPEOPS_NUM_RESULTS = 5
 DOWNLOADER_MIDDLEWARES = {
-    "tfmkt_scraper.middlewares.ScrapeOpsFakeBrowserHeaderAgentMiddleware": 543,
+    "tfmkt_scraper.middlewares.TfmktScraperDownloaderMiddleware": 543,
 }

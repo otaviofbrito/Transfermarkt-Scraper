@@ -1,15 +1,4 @@
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/items.html
-
 import scrapy
-
-
-class TfmktScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
 
 
 class LeagueItem(scrapy.Item):
@@ -43,7 +32,6 @@ class TransferItem(scrapy.Item):
     transfer_type = scrapy.Field()  #0 - not loan, 1- loan, 2- end of loan, 3- unknown
     
     
-    
 class PlayerItem(scrapy.Item):
     id = scrapy.Field()
     url = scrapy.Field()
@@ -61,4 +49,3 @@ class PlayerItem(scrapy.Item):
     main_position = scrapy.Field()
     current_mv = scrapy.Field()
     
-##TODO: save league and clubs logo
