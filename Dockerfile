@@ -13,4 +13,4 @@ COPY . .
 
 WORKDIR tfmkt_scraper/tfmkt_scraper/
 
-CMD ["python3", "crawl.py"]
+ENTRYPOINT ["python3", "crawl.py"]
