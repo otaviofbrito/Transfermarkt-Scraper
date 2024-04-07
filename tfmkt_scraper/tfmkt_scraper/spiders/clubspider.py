@@ -6,7 +6,7 @@ from tfmkt_scraper.items import ClubItem
 
 
 class ClubspiderSpider(CrawlSpider):
-    name = "clubspider"
+    name = "clubs"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = [
                  "https://www.transfermarkt.com/wettbewerbe/europa",

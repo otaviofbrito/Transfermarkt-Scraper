@@ -6,7 +6,7 @@ from tfmkt_scraper.items import TransferItem
 from tfmkt_scraper.utils import get_club_id, get_player_id
 
 class TransferSpider(CrawlSpider):
-    name = "transferspider"
+    name = "transfers"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = [
         "https://www.transfermarkt.com/wettbewerbe/europa",

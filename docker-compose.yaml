@@ -17,13 +17,9 @@ services:
     volumes:
       - my-db:/var/lib/mysql
 
-  scrap_app:
+  scrapy:
     build: .
-    environment:
-        #Fill this field with your key from https://scrapeops.io/app/headers
-      - API_KEY=YOUR_API_KEY
     depends_on:
-      - mysql_db
-
+      - mysql_db       
 volumes:
   my-db:
