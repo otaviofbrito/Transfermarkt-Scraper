@@ -7,7 +7,7 @@ from scrapy.linkextractors import LinkExtractor
 
 
 class LeagueSpider(CrawlSpider):
-    name = "leaguespider"
+    name = "leagues"
     allowed_domains = ["www.transfermarkt.com"]
     start_urls = [
                  "https://www.transfermarkt.com/wettbewerbe/europa",

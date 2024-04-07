@@ -1,6 +1,6 @@
 FROM python:3.11
 
-WORKDIR /usr/src/scrap_app
+WORKDIR /usr/src/app/
 
 RUN apt-get update && \
     apt-get -y install python3-dev
@@ -11,4 +11,6 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . . 
 
-CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
+WORKDIR tfmkt_scraper/tfmkt_scraper/
+
+CMD ["python3", "crawl.py"]
