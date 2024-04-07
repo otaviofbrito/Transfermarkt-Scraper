@@ -20,6 +20,11 @@ services:
   scrapy:
     build: .
     depends_on:
-      - mysql_db       
+      - mysql_db
+    volumes:
+      - type: volume
+        source: mydata
+        target: /usr/src/app/tfmkt_scraper/tfmkt_scraper/data
 volumes:
   my-db:
+  mydata:
