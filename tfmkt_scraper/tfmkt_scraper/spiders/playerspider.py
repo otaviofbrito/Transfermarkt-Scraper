@@ -17,13 +17,9 @@ class PlayerSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(
-            restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny=['/pokalwettbewerb/']), follow=True),
+            restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny=['/pokalwettbewerb/']), callback='parse_league'),
         Rule(LinkExtractor(
             restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page'), follow=True),
-        Rule(LinkExtractor(
-            restrict_xpaths='//div[@class="box tab-print"]/div[last()]/a'), follow=True),
-        Rule(LinkExtractor(
-            restrict_xpaths='//div[@class="large-4 columns"]/div[@class="box"]/a[last()-1]'), follow=True),
         Rule(LinkExtractor(
             restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club'),
         Rule(LinkExtractor(allow=r'\/profil\/spieler\/(\d+)$'),
@@ -41,9 +37,14 @@ class PlayerSpider(CrawlSpider):
         }
     }
 
+    def parse_league(self, response):
+        league_url = response.url
+        clubs_table_url = re.sub(r'startseite', 'eigenetabelle', league_url)
+        yield response.follow(clubs_table_url)
+
     def parse_club(self, response):
         club_url = response.url
-        players_url = re.sub(r'startseite', 'alumni', club_url)
+        players_url = re.sub(r'startseite', 'alletransfers', club_url)
         yield response.follow(players_url)
 
     def parse_player(self, response):

@@ -5,7 +5,8 @@ NEWSPIDER_MODULE = "tfmkt_scraper.spiders"
 
 ROBOTSTXT_OBEY = False
 
-DOWNLOAD_DELAY = 3
+AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_TARGET_CONCURRENCY = 5
 
 COOKIES_ENABLED = False
 
@@ -22,7 +23,9 @@ MYSQL_USER = "user"
 MYSQL_PASSWORD = "user"
 MYSQL_DATABASE = "tm_db"
 
-
+#HTTP CACHE SETTINGS
 DOWNLOADER_MIDDLEWARES = {
-    "tfmkt_scraper.middlewares.TfmktScraperDownloaderMiddleware": 543,
+    "scrapy.downloadermiddlewares.httpcache.HttpCacheMiddleware": 500
 }
+
+HTTPCACHE_ENABLED = True
