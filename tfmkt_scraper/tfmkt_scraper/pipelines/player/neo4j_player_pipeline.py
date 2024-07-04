@@ -8,15 +8,15 @@ class Neo4jPlayerPipeline(Neoj4jConnectionPipeline):
             self.driver.execute_query(
                 """             
                   MERGE(p:Player {player_id:$id})                
-                  ON CREATE SET url:$url, name:$name, fullname:$fullname, birthdate:$birthdate,
-                    deathdate:$deathdate, height:$height, citizenship_1:$c1, citizenship_2:$c2,
-                    foot:$foot, agent:$agent, current_club:$current_club, outfitter:$outfitter,
-                    main_position:$main_position, current_mv:$mv
+                  ON CREATE SET url=$url, name=$name, fullname=$fullname, birthdate=$birthdate,
+                    deathdate=$deathdate, height=$height, citizenship_1=$c1, citizenship_2=$c2,
+                    foot=$foot, agent=$agent, current_club=$current_club, outfitter=$outfitter,
+                    main_position=$main_position, current_mv=$mv
 
-                  ON MATCH SET url:$url, name:$name, fullname:$fullname, birthdate:$birthdate,
-                    deathdate:$deathdate, height:$height, citizenship_1:$c1, citizenship_2:$c2,
-                    foot:$foot, agent:$agent, current_club:$current_club, outfitter:$outfitter,
-                    main_position:$main_position, current_mv:$mv
+                  ON MATCH SET url=$url, name=$name, fullname=$fullname, birthdate=$birthdate,
+                    deathdate=$deathdate, height=$height, citizenship_1=$c1, citizenship_2=$c2,
+                    foot=$foot, agent=$agent, current_club=$current_club, outfitter=$outfitter,
+                    main_position=$main_position, current_mv=$mv
 
                 """,
                 id=item['id'],
