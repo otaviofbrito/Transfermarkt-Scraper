@@ -35,6 +35,6 @@ class Neo4jPlayerPipeline(Neoj4jConnectionPipeline):
                 main_position=item['main_position'],
                 mv=item['current_mv'],
                 database_=self.database)
-
+            return item
         except Exception as e:
             raise DropItem(f'**Neo4j error when inserting item: {e}')

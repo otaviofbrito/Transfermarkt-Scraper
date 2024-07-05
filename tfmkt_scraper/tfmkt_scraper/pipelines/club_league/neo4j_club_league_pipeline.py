@@ -15,6 +15,6 @@ class Neo4jClubLeaguePipeline(Neoj4jConnectionPipeline):
                   ON MATCH SET r.year=$season, r.squad_number=$squad_number, r.market_value=$mv
                 """, club_id=item['club_id'], league_id=item['league_id'], season=item['season'],
                 squad_number=item['squad'], mv=item['market_value'], database_=self.database)
-
+            return item
         except Exception as e:
             raise DropItem(f'**Neo4j error when inserting item: {e}')

@@ -13,6 +13,6 @@ class Neo4jLeaguePipeline(Neoj4jConnectionPipeline):
 
                 """, id=item['id'], url=item['url'], name=item['league_name'],
                 country=item['league_country'], mv=item['league_current_mv'], database_=self.database)
-
+            return item
         except Exception as e:
             raise DropItem(f'**Neo4j error when inserting item: {e}')
