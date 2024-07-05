@@ -38,7 +38,7 @@ class LeagueSpider(CrawlSpider):
         # ignore cup pages
         league_url = response.url
         if '/pokalwettbewerb/' in league_url:
-            print("***********>cup ignored")
+            print("[PARSE_WARNING]: Cup ignored")
             return
         league_item = LeagueItem()
 
