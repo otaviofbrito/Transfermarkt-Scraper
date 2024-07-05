@@ -1,4 +1,3 @@
-import scrapy
 import re
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
@@ -29,7 +28,6 @@ class TransferSpider(CrawlSpider):
             restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club')
     )
 
-    # Spider specific settings
     custom_settings = {
         'ITEM_PIPELINES': {
             "tfmkt_scraper.pipelines.transfer.transfer_pipeline.TransferScraperPipeline": 300,

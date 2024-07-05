@@ -19,7 +19,7 @@ services:
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 
   neo4j:
-    image: neo4j:latest
+    image: neo4j:5.21.0-community
     container_name: neo4j
     ports:
       - "7474:7474"
