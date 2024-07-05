@@ -1,4 +1,3 @@
-import scrapy
 import re
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
@@ -25,7 +24,8 @@ class Club_LeagueSpider(CrawlSpider):
     custom_settings = {
         'ITEM_PIPELINES': {
             "tfmkt_scraper.pipelines.club_league.club_league_pipeline.ClubLeagueScraperPipeline": 300,
-            "tfmkt_scraper.pipelines.club_league.mySql_club_league_pipeline.MySqlClub_LeaguePipeline": 400
+            "tfmkt_scraper.pipelines.club_league.mySql_club_league_pipeline.MySqlClub_LeaguePipeline": 400,
+            "tfmkt_scraper.pipelines.club_league.neo4j_club_league_pipeline.Neo4jClubLeaguePipeline" : 420
         },
         'FEEDS': {
             './data/club_league.jsonl': {'format': 'jsonlines', 'overwrite': True},
