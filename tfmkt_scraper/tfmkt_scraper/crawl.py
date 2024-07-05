@@ -1,8 +1,6 @@
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 import argparse
-import sys
-
 
 def main():
     parser = argparse.ArgumentParser()
@@ -11,21 +9,21 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--spider", nargs='+', help='List of spiders')
 
-    # Optional storage arguments - Default is CSV only
-    parser.add_argument("--csv", help='Store data in CSV', action="store_true")
-    parser.add_argument(
-        "--jsonl", help='Store data in JSONL', action="store_true")
-    parser.add_argument(
-        "--mysql", help='Store data in MYSQL DB', action="store_true")
+    # # Optional storage arguments - Default is CSV only
+    # parser.add_argument("--csv", help='Store data in CSV', action="store_true")
+    # parser.add_argument(
+    #     "--jsonl", help='Store data in JSONL', action="store_true")
+    # parser.add_argument(
+    #     "--mysql", help='Store data in MYSQL DB', action="store_true")
 
     # Parse args
     args = parser.parse_args()
 
-    storage_options = {
-        'CSV': args.csv,
-        'JSONL': args.jsonl,
-        'MySQL': args.mysql
-    }
+    # storage_options = {
+    #     'CSV': args.csv,
+    #     'JSONL': args.jsonl,
+    #     'MySQL': args.mysql
+    # }
 
     print("\n\t<-----------Transfermarkt Scraper----------->\n")
     settings = get_project_settings()
@@ -43,11 +41,11 @@ def main():
         print(" - " + name)
     print("---------------------")
 
-    print("\n------Storage selected: ")
-    for key, value in storage_options.items():
-        if value:
-           print(" - " + key)
-    print("---------------------\n")
+    # print("\n------Storage selected: ")
+    # for key, value in storage_options.items():
+    #     if value:
+    #        print(" - " + key)
+    # print("---------------------\n")
     
     crawl(process, selected_spiders)
     process.start()
