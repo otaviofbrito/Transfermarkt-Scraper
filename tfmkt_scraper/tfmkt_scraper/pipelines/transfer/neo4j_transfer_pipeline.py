@@ -15,9 +15,8 @@ class Neo4jTransferPipeline(Neoj4jConnectionPipeline):
                   ON CREATE SET t.year=$year, t.fee=$fee, t.type=$type
                   ON MATCH SET t.year=$year, t.fee=$fee, t.type=$type
 
-                  MERGE(c1)<-[:LEFT_FROM]-(t)-[:JOINED_TO]->(c2)
+                  MERGE(c1)<-[:LEFT]-(t)-[:JOINED]->(c2)
                   MERGE(t)-[:OF_PLAYER]->(p)
-
                 """, club_id=item['id'], url=item['url'], name=item['club_name'],
                 current_league=item['current_league'], mv=item['current_mv'], database_=self.database)
 
