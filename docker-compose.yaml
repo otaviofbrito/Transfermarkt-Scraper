@@ -41,6 +41,7 @@ services:
     build: .
     depends_on:
       - mysql_db
+      - neo4j
     volumes:
       - type: volume
         source: mydata
