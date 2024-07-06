@@ -8,9 +8,11 @@ class Neo4jLeaguePipeline(Neoj4jConnectionPipeline):
             self.driver.execute_query(
                 """             
                   MERGE(l:League {league_id:$id})                
-                  ON CREATE SET l.url=$url, l.name=$name, l.current_mv=$mv, l.country=$country
-                  ON MATCH SET l.url=$url, l.name=$name, l.current_mv=$mv, l.country=$country
+                  ON CREATE SET l.url=$url, l.name=$name, l.current_mv=$mv
+                  ON MATCH SET l.url=$url, l.name=$name, l.current_mv=$mv
 
+                  MERGE(ct:Country {name:toUpper($league_country})
+                  MERGE(l)-[:PART_OF]->(ct)
                 """, id=item['id'], url=item['url'], name=item['league_name'],
                 country=item['league_country'], mv=item['league_current_mv'], database_=self.database)
             return item
