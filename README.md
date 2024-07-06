@@ -1,5 +1,8 @@
-# :soccer: Soccer transfers scraper
-![Neo4j|Scrapy](./img/project_logo.png)
+# :soccer: Soccer Transfer Scraper
+
+<p align="center">
+  <img src="./img/project_header.png" />
+</p>
 
 An application that uses [Scrapy](https://scrapy.org/) framework to collect data from [Transfermarkt](https://www.transfermarkt.com/) website.
 
@@ -7,18 +10,19 @@ The main focus of this project is to collect and store data from every transfer 
 
 To keep things related, we also collect data from players, clubs and leagues.
 All the data collected is cleaned and exported in several formats:
-  - File formats:
-    - [JSON-lines](https://jsonlines.org/)
-    - CSV
-  - Databases:
-    - [Neo4j](https://neo4j.com) graph database
-    - [MySql](https://www.mysql.com/) relational database
+
+- File formats:
+  - [JSON-lines](https://jsonlines.org/)
+  - CSV
+- Databases:
+  - [Neo4j](https://neo4j.com) graph database
+  - [MySql](https://www.mysql.com/) relational database
 
 ---
-## Neo4j
-Neo4j graph data modelling
+
+## Neo4j Graph Data Model
 ```mermaid
-flowchart 
+flowchart
     CT((Country))
     P((Player))
     L((League))
@@ -36,11 +40,16 @@ flowchart
 
 
 ```
+
+This graph data model enables the tracking of player movements between clubs, the leagues and countries they are associated with, and the citizenship of the players.
+
+> The specialized relationship `COMPETED_IN_{YEAR}` is meant to reduce the number of nodes that need to be retrieved and therefore improving query performance.
+
 ---
-## MySql
-Relational data modelling
+
+## MySql Relational Data Model
 ```mermaid
-erDiagram 
+erDiagram
     League }o--o{ Club_League : includes
     League {
         VARCHAR id PK
@@ -98,43 +107,66 @@ erDiagram
 
 ### Docker
 
-This project can be easily run via [Docker](https://www.docker.com/).
+This project can be easily built via [Docker](https://www.docker.com/).
+
+#### 1. Instantiate the Databases
 
 ```console
-##The scraper will automatically run using all five spiders.
-docker compose up
-```
-
-
-If you don't want to collect data from all spiders, you can choose which one to run.
-
-```console
-## First start mysql database container
+docker compose up -d neo4j
 docker compose up -d mysql_db
 ```
-Next select which spider you'd like to run
+
+Ensure both containers are running by using `docker container ps` to check their status.
+
+#### 2. Run Scrapy container
+
 ```console
-## If arguments are omitted, it will run every spider.
-docker compose run scrapy
+docker compose run -d scrapy
+// If arguments are omitted, it will run every spider sequentially.
 ```
+
+Done! Now you just need to wait for the data to be collected. Once every spider has finished, the container will terminate
+
+> Tip: Omit the -d flag if you want to display the output in the terminal.
 
 There are 5 different spiders:
 
-1. clubs
-2. leagues
-3. club_league
-4. transfers
-5. players
+1. club_league
+2. clubs
+3. leagues
+4. players
+5. transfers
 
-You can choose which spider will run by providing its name as an argument:
+You can choose which spiders to run by providing their names as arguments:
 
 ```console
-##It will run only the transfers and clubs spiders.
-docker compose run scrapy transfers clubs
+docker compose run scrapy -s transfers clubs
+//It will run only the transfers and clubs spiders.
 ```
 
-### Get the scraped data
-The scraped data is stored in a volume on the Docker host, and you can retrieve it using the following command:
+### Access the data
+
+#### JSON & CSV
+
+The scraped data is stored in a volume on the Docker host. You can retrieve it using the following command:
+
 ```console
-docker cp CONTAINER:/usr/src/app/tfmkt_scraper/tfmkt_scraper/data/ /destination/path/
+// Get JSONl and CSV files
+docker cp <CONTAINER_ID>:/usr/src/app/tfmkt_scraper/tfmkt_scraper/data/ /destination/path/
 ```
+
+#### Neo4j
+
+Neo4j provides a web interface to manage the database, which can be accessed via: http://localhost:7474
+
+- user: `neo4j`
+- password: `secretgraph`
+
+#### MySQL
+
+The MySQL container exposes port `3307`, which can be connected to directly via `localhost`.
+
+- user: `user`
+- password: `user`
+
+> It's recomended [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) for a graphical interface
