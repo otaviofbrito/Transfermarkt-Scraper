@@ -79,7 +79,7 @@ class MySqlConnectionPipeline:
         citizenship_2 VARCHAR(255),
         foot VARCHAR(30),
         agent VARCHAR(255),
-        current_club_id VARCHAR(15),
+        current_club_id BIGINT,
         outfitter VARCHAR(255),
         main_position VARCHAR(255),
         current_mv BIGINT NOT NULL
