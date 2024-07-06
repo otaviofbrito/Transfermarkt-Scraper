@@ -29,6 +29,9 @@ class Neoj4jConnectionPipeline:
 
             self.driver.execute_query(
                 "CREATE CONSTRAINT club_id IF NOT EXISTS FOR (c:Club) REQUIRE c.club_id IS UNIQUE", database_=self.database)
+            
+            self.driver.execute_query(
+                "CREATE CONSTRAINT country_name IF NOT EXISTS FOR (ct:Country) REQUIRE ct.name IS UNIQUE", database_=self.database)
 
         except Exception as e:
             print(e)
