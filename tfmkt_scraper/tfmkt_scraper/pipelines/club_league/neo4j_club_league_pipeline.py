@@ -10,9 +10,12 @@ class Neo4jClubLeaguePipeline(Neoj4jConnectionPipeline):
                   MERGE(l:League {league_id:$league_id})
                   MERGE(c:Club {club_id:$club_id})                
 
-                  MERGE(c)-[r:COMPETES_IN]->(l)
-                  ON CREATE SET r.season=$season, r.squad_number=$squad_number, r.market_value=$mv
-                  ON MATCH SET r.year=$season, r.squad_number=$squad_number, r.market_value=$mv
+                  MERGE(c)-[:COMPETED_IN]->(l)
+                  WITH c,l, $season AS season
+                  CALL apoc.merge.relationship(c, 'COMPETED_IN_' + $season, {},
+                    {squad_number:$squad_number, market_value:$mv}, l,
+                      {squad_number:$squad_number, market_value:$mv}) YIELD rel
+                  RETURN rel
                 """, club_id=item['club_id'], league_id=item['league_id'], season=item['season'],
                 squad_number=item['squad'], mv=item['market_value'], database_=self.database)
             return item
