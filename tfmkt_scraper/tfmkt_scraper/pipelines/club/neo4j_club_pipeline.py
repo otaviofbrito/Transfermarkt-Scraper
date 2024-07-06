@@ -10,7 +10,6 @@ class Neo4jClubPipeline(Neoj4jConnectionPipeline):
                   MERGE(c:Club {club_id:$club_id})                
                   ON CREATE SET c.url=$url, c.name=$name, c.current_mv=$mv, c.current_league=$current_league
                   ON MATCH SET c.url=$url, c.name=$name, c.current_mv=$mv, c.current_league=$current_league
-
                 """, club_id=item['id'], url=item['url'], name=item['club_name'],
                 current_league=item['current_league'], mv=item['current_mv'], database_=self.database)
             return item
