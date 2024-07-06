@@ -9,15 +9,19 @@ class Neo4jPlayerPipeline(Neoj4jConnectionPipeline):
                 """             
                   MERGE(p:Player {player_id:$id})                
                   ON CREATE SET p.url=$url, p.name=$name, p.fullname=$fullname, p.birthdate=$birthdate,
-                    p.deathdate=$deathdate, p.height=$height, p.citizenship_1=$c1, p.citizenship_2=$c2,
-                    p.foot=$foot, p.agent=$agent, p.current_club=$current_club, p.outfitter=$outfitter,
-                    p.main_position=$main_position, p.current_mv=$mv
-
+                    p.deathdate=$deathdate, p.height=$height,p.foot=$foot, p.agent=$agent, p.current_club=$current_club,
+                    p.outfitter=$outfitter,p.main_position=$main_position, p.current_mv=$mv
                   ON MATCH SET p.url=$url, p.name=$name, p.fullname=$fullname, p.birthdate=$birthdate,
-                    p.deathdate=$deathdate, p.height=$height, p.citizenship_1=$c1, p.citizenship_2=$c2,
-                    p.foot=$foot, p.agent=$agent, p.current_club=$current_club, p.outfitter=$outfitter,
-                    p.main_position=$main_position, p.current_mv=$mv
+                    p.deathdate=$deathdate, p.height=$height,p.foot=$foot, p.agent=$agent, p.current_club=$current_club,
+                    p.outfitter=$outfitter, p.main_position=$main_position, p.current_mv=$mv
 
+                  FOREACH (_ IN CASE WHEN $c1 IS NOT NULL THEN [1] ELSE [] END |
+                    MERGE (c1:Country {name: toUpper($c1)})
+                    MERGE (p)-[:HAS_CITIZENSHIP]->(c1)
+                  
+                  FOREACH (_ IN CASE WHEN $c2 IS NOT NULL THEN [1] ELSE [] END |
+                    MERGE (c1:Country {name: toUpper($c2)})
+                    MERGE (p)-[:HAS_CITIZENSHIP]->(c1)
                 """,
                 id=item['id'],
                 url=item['url'],
