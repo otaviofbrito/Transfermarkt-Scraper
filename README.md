@@ -1,4 +1,4 @@
-# :soccer: Soccer Transfer Scraper
+# :soccer: Transfermarkt Scraper
 
 <p align="center">
   <img src="./img/project_header.png" />
@@ -6,7 +6,7 @@
 
 An application that uses [Scrapy](https://scrapy.org/) framework to collect data from [Transfermarkt](https://www.transfermarkt.com/) website.
 
-The main focus of this project is to collect and store data from every transfer available in the website.
+The main focus of this project is to collect and store data from every **transfer** available in the website.
 
 To keep things related, we also collect data from players, clubs and leagues.
 All the data collected is cleaned and exported in several formats:
@@ -47,7 +47,7 @@ This graph data model enables the tracking of player movements between clubs, th
 
 ---
 
-## MySql Relational Data Model
+## MySQL Relational Data Model
 ```mermaid
 erDiagram
     League }o--o{ Club_League : includes
@@ -105,7 +105,7 @@ erDiagram
 
 ---
 
-### Docker
+### Installation - Docker
 
 This project can be easily built via [Docker](https://www.docker.com/).
 
