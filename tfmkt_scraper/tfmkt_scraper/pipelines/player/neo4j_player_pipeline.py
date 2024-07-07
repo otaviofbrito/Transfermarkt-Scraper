@@ -6,22 +6,14 @@ class Neo4jPlayerPipeline(Neoj4jConnectionPipeline):
     def process_item(self, item, spider):
         try:
             self.driver.execute_query(
-                """             
-                  MERGE(p:Player {player_id:$id})                
+                """
+                  MERGE(p:Player {player_id:$id})
                   ON CREATE SET p.url=$url, p.name=$name, p.fullname=$fullname, p.birthdate=$birthdate,
                     p.deathdate=$deathdate, p.height=$height,p.foot=$foot, p.agent=$agent, p.current_club=$current_club,
                     p.outfitter=$outfitter,p.main_position=$main_position, p.current_mv=$mv
                   ON MATCH SET p.url=$url, p.name=$name, p.fullname=$fullname, p.birthdate=$birthdate,
                     p.deathdate=$deathdate, p.height=$height,p.foot=$foot, p.agent=$agent, p.current_club=$current_club,
                     p.outfitter=$outfitter, p.main_position=$main_position, p.current_mv=$mv
-
-                  FOREACH (_ IN CASE WHEN $c1 IS NOT NULL THEN [1] ELSE [] END |
-                    MERGE (c1:Country {name: toUpper($c1)})
-                    MERGE (p)-[:HAS_CITIZENSHIP]->(c1)
-                  
-                  FOREACH (_ IN CASE WHEN $c2 IS NOT NULL THEN [1] ELSE [] END |
-                    MERGE (c1:Country {name: toUpper($c2)})
-                    MERGE (p)-[:HAS_CITIZENSHIP]->(c1)
                 """,
                 id=item['id'],
                 url=item['url'],
@@ -30,8 +22,6 @@ class Neo4jPlayerPipeline(Neoj4jConnectionPipeline):
                 birthdate=item['birth_date'],
                 deathdate=item['death_date'],
                 height=item['height'],
-                c1=item['citizenship_1'],
-                c2=item['citizenship_2'],
                 foot=item['foot'],
                 agent=item['agent'],
                 current_club=item['current_club'],
@@ -39,6 +29,22 @@ class Neo4jPlayerPipeline(Neoj4jConnectionPipeline):
                 main_position=item['main_position'],
                 mv=item['current_mv'],
                 database_=self.database)
+
+            if item['citizenship_1']:
+                self.driver.execute_query(
+                    """
+                    MATCH(p:Player {player_id:$id})
+                    MERGE (c:Country {name: toUpper($c1)})
+                    MERGE (p)-[:HAS_CITIZENSHIP]->(c)
+                    """, id=item['id'], c1=item['citizenship_1'], database_=self.database)
+
+            if item['citizenship_2']:
+                self.driver.execute_query(
+                    """
+                    MATCH(p:Player {player_id:$id})
+                    MERGE (c:Country {name: toUpper($c2)})
+                    MERGE (p)-[:HAS_CITIZENSHIP]->(c)
+                    """, id=item['id'], c2=item['citizenship_2'], database_=self.database)
             return item
         except Exception as e:
             raise DropItem(f'**Neo4j error when inserting item: {e}')
