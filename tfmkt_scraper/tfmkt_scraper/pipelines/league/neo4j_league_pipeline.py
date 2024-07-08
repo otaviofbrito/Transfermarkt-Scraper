@@ -11,7 +11,7 @@ class Neo4jLeaguePipeline(Neoj4jConnectionPipeline):
                   ON CREATE SET l.url=$url, l.name=$name, l.current_mv=$mv
                   ON MATCH SET l.url=$url, l.name=$name, l.current_mv=$mv
 
-                  MERGE(ct:Country {name:toUpper($league_country})
+                  MERGE(ct:Country {name:toUpper($country)})
                   MERGE(l)-[:PART_OF]->(ct)
                 """, id=item['id'], url=item['url'], name=item['league_name'],
                 country=item['league_country'], mv=item['league_current_mv'], database_=self.database)
