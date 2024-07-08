@@ -1,26 +1,25 @@
 from itemadapter import ItemAdapter
-from tfmkt_scraper.utils import convert_mv
+from tfmkt_scraper.utils import *
+
 
 class LeagueScraperPipeline:
     def process_item(self, item, spider):
 
         adapter = ItemAdapter(item)
 
-        ##Strip the whitespaces
-        field_names = adapter.field_names()
-        for field_name in field_names:
-            value = adapter.get(field_name)
-            if value:
-                adapter[field_name] = value.strip()
+        # Strip the whitespaces
+        strip_fields(adapter=adapter)
 
-        ##Convert current market value to float
-        mv_keys = ['league_current_mv']
-        for mv_key in mv_keys:
-            value = adapter.get(mv_key)
-            if value:
-              value = value.replace('€', '')
-              value = convert_mv(value=value)
-              adapter[mv_key] = value
-            else: adapter[mv_key] = 0
+        # Convert current market value to float
+        mv_key = 'league_current_mv'
+        value = adapter.get(mv_key)
+        if value:
+            value = value.replace('€', '')
+            value = convert_mv(value=value)
+            adapter[mv_key] = value
+        else:
+            adapter[mv_key] = 0
+
+        convert_emptystring_to_none(adapter=adapter)
 
         return item

@@ -1,5 +1,5 @@
 from itemadapter import ItemAdapter
-from tfmkt_scraper.utils import convert_mv, convert_item_str_to_int
+from tfmkt_scraper.utils import *
 import re
 import datetime
 
@@ -9,11 +9,7 @@ class PlayerScraperPipeline:
 
         adapter = ItemAdapter(item)
 
-        field_names = adapter.field_names()
-        for field in field_names:
-            value = adapter.get(field)
-            if value:
-                adapter[field] = value.strip()
+        strip_fields(adapter=adapter)
 
         # Convert market value
         value = adapter.get('current_mv')
@@ -60,9 +56,6 @@ class PlayerScraperPipeline:
                 adapter['death_date'] = None
 
         # Convert empty strings to None | '' -> None
-        for field in field_names:
-            value = adapter.get(field)
-            if value == '':
-                adapter[field] = None
+        convert_emptystring_to_none(adapter=adapter)
 
         return item
