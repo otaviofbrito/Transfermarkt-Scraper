@@ -1,17 +1,13 @@
 from itemadapter import ItemAdapter
-from tfmkt_scraper.utils import convert_mv, convert_item_str_to_int
+from tfmkt_scraper.utils import *
 
 
 class ClubScrapperPipeline:
-   def process_item(self, item, spider):
+    def process_item(self, item, spider):
 
         adapter = ItemAdapter(item)
 
-        field_names = adapter.field_names()
-        for field in field_names:
-            value = adapter.get(field)
-            if value:
-                adapter[field] = value.strip()
+        strip_fields(adapter=adapter)
 
         # Convert market value
         mv_keys = ['current_mv']
@@ -26,6 +22,6 @@ class ClubScrapperPipeline:
         id_keys = ['id']
         convert_item_str_to_int(adapter=adapter, keys=id_keys)
 
-
+        convert_emptystring_to_none(adapter=adapter)
 
         return item
