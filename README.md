@@ -165,6 +165,9 @@ Neo4j provides a web interface to manage the database, which can be accessed via
 - user: `neo4j`
 - password: `secretgraph`
 
+<img src="./img/neo4j_browser.png" style="display: block; margin: auto; box-shadow: 0px 0px 10px  rgba(0, 0, 0, 0.5);" />
+
+
 #### MySQL
 
 The MySQL container exposes port `3307`, which can be connected to directly via `localhost`.
