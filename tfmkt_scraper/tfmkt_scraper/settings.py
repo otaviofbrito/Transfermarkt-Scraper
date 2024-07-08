@@ -10,7 +10,8 @@ AUTOTHROTTLE_TARGET_CONCURRENCY = 5
 
 COOKIES_ENABLED = False
 
-USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Windows; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.114 Safari/537.36"
+#Set your user agent:
+USER_AGENT = "tfmkt/otaviofbrito"
 
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
