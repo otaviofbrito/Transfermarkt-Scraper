@@ -16,7 +16,7 @@ All the data collected is cleaned and exported in several formats:
   - CSV
 - Databases:
   - [Neo4j](https://neo4j.com) graph database
-  - [MySql](https://www.mysql.com/) relational database
+  - [MySQL](https://www.mysql.com/) relational database
 
 ---
 
