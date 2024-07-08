@@ -1,4 +1,4 @@
 scrapy==2.11.2
 mysql==0.0.3
 mysql-connector-python==8.2.0
-neo4j
+neo4j==5.22.0
