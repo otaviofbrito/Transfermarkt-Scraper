@@ -105,6 +105,8 @@ erDiagram
 
 ---
 
+> :warning: A `USER AGENT` must be set in order to run this project :warning:
+    - Add `USER_AGENT = '<your user agent>'` to [settings.py](/tfmkt_scraper//tfmkt_scraper/settings.py)
 ### Installation - Docker
 
 This project can be easily built via [Docker](https://www.docker.com/).
@@ -118,6 +120,7 @@ docker compose up -d mysql_db
 
 Ensure both containers are running by using `docker container ps` to check their status.
 
+> Databases can take a while to get ready. Check their connection before starting the crawler, or just wait a little.
 #### 2. Run Scrapy container
 
 ```console
