@@ -1,6 +1,7 @@
 from itemadapter import ItemAdapter
 import re
 
+
 def convert_mv(value) -> int:
     if 'k' in value:
         value = value.replace('k', '')
@@ -20,17 +21,35 @@ def convert_mv(value) -> int:
     return value
 
 
-
-def convert_item_str_to_int(adapter:ItemAdapter, keys):
+def convert_item_str_to_int(adapter: ItemAdapter, keys):
     for key in keys:
         value = adapter.get(key)
-        if  value: adapter[key] = int(value)
+        if value:
+            adapter[key] = int(value)
 
 
 def get_club_id(url):
     regex_match_id = re.search(r'\/verein\/(\d+)', url, re.IGNORECASE)
     return regex_match_id.group(1)
 
+
 def get_player_id(url):
-    regex_match_payer_id = re.search(r'\/profil\/spieler\/(\d+)', url, re.IGNORECASE)
+    regex_match_payer_id = re.search(
+        r'\/profil\/spieler\/(\d+)', url, re.IGNORECASE)
     return regex_match_payer_id.group(1)
+
+
+def convert_emptystring_to_none(adapter: ItemAdapter):
+    field_names = adapter.field_names()
+    for field in field_names:
+        value = adapter.get(field)
+        if value == '':
+            adapter[field] = None
+
+
+def strip_fields(adapter: ItemAdapter):
+    field_names = adapter.field_names()
+    for field in field_names:
+        value = adapter.get(field)
+        if value:
+            adapter[field] = value.strip()
