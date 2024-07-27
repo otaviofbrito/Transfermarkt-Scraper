@@ -14,7 +14,7 @@ class ClubScrapperPipeline:
         for mv_key in mv_keys:
             value = adapter.get(mv_key)
             if value:
-                adapter[mv_key] = convert_mv(value=value)
+                adapter[mv_key] = convert_market_value(value=value)
             else:
                 adapter[mv_key] = 0
 
@@ -22,6 +22,6 @@ class ClubScrapperPipeline:
         id_keys = ['id']
         convert_item_str_to_int(adapter=adapter, keys=id_keys)
 
-        convert_emptystring_to_none(adapter=adapter)
+        convert_empty_strings_to_none(adapter=adapter)
 
         return item

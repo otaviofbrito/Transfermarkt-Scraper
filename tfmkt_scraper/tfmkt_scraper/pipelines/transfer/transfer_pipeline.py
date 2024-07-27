@@ -16,8 +16,8 @@ class TransferScraperPipeline:
         value = adapter.get(key)
         if isinstance(value, str):
             value = value.replace('€', '')
-            adapter[key] = convert_mv(value)
+            adapter[key] = convert_market_value(value)
 
-        convert_emptystring_to_none(adapter=adapter)
+        convert_empty_strings_to_none(adapter=adapter)
 
         return item

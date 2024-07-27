@@ -15,11 +15,11 @@ class LeagueScraperPipeline:
         value = adapter.get(mv_key)
         if value:
             value = value.replace('€', '')
-            value = convert_mv(value=value)
+            value = convert_market_value(value=value)
             adapter[mv_key] = value
         else:
             adapter[mv_key] = 0
 
-        convert_emptystring_to_none(adapter=adapter)
+        convert_empty_strings_to_none(adapter=adapter)
 
         return item

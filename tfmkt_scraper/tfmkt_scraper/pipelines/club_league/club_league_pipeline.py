@@ -11,7 +11,7 @@ class ClubLeagueScraperPipeline:
         value = adapter.get('market_value')
         if value:
             value = value.replace('€', '')
-            value = convert_mv(value=value)
+            value = convert_market_value(value=value)
             adapter['market_value'] = value
         else:
             adapter['market_value'] = 0
@@ -31,6 +31,6 @@ class ClubLeagueScraperPipeline:
         season_keys = ['season']
         convert_item_str_to_int(adapter=adapter, keys=season_keys)
 
-        convert_emptystring_to_none(adapter=adapter)
+        convert_empty_strings_to_none(adapter=adapter)
 
         return item
