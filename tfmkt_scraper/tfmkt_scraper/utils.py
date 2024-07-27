@@ -2,21 +2,28 @@ from itemadapter import ItemAdapter
 import re
 
 
-def convert_mv(value) -> int:
-    if 'k' in value:
-        value = value.replace('k', '')
-        value = float(value)
-        value = int(value*1000)
-    elif 'm' in value:
-        value = value.replace('m', '')
-        value = float(value)
-        value = int(value*1000000)
-    elif 'bn' in value:
-        value = value.replace('bn', '')
-        value = float(value)
-        value = int(value*1000000000)
-    else:
-        value = 0
+def convert_market_value(value: str) -> int:
+    if not value:
+        return 0
+
+    try:
+        value = value.lower().strip()  # Normalize the value
+        if 'k' in value:
+            value = value.replace('k', '')
+            value = float(value)
+            value = int(value * 1000)
+        elif 'm' in value:
+            value = value.replace('m', '')
+            value = float(value)
+            value = int(value * 1000000)
+        elif 'bn' in value:
+            value = value.replace('bn', '')
+            value = float(value)
+            value = int(value * 1000000000)
+        else:
+            return 0  # Unrecognized suffix
+    except ValueError:
+        return 0  # In case of any conversion error
 
     return value
 
@@ -39,7 +46,7 @@ def get_player_id(url):
     return regex_match_payer_id.group(1)
 
 
-def convert_emptystring_to_none(adapter: ItemAdapter):
+def convert_empty_strings_to_none(adapter: ItemAdapter):
     field_names = adapter.field_names()
     for field in field_names:
         value = adapter.get(field)
