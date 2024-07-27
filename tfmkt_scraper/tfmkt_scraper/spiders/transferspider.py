@@ -25,7 +25,7 @@ class TransferSpider(CrawlSpider):
         Rule(LinkExtractor(
             restrict_xpaths='//div[@class="large-4 columns"]/div[@class="box"]/a[last()-1]'), follow=True),
         Rule(LinkExtractor(
-            restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club')
+            allow=r'\/startseite\/verein\/(\d+)$'), callback='parse_club')
     )
 
     custom_settings = {

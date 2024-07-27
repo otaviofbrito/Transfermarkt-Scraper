@@ -19,8 +19,8 @@ class PlayerSpider(CrawlSpider):
             restrict_xpaths='//tr[@class="odd" or @class="even"]/td/table/tr/td[2]/a', deny=['/pokalwettbewerb/']), callback='parse_league'),
         Rule(LinkExtractor(
             restrict_css='li.tm-pagination__list-item.tm-pagination__list-item--icon-next-page'), follow=True),
-        Rule(LinkExtractor(
-            restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club'),
+        Rule(LinkExtractor(allow=r'\/startseite\/verein\/(\d+)$'),
+             callback='parse_club'),
         Rule(LinkExtractor(allow=r'\/profil\/spieler\/(\d+)$'),
              callback='parse_player')
     )

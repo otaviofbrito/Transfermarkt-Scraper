@@ -23,8 +23,8 @@ class ClubspiderSpider(CrawlSpider):
             restrict_xpaths='//div[@class="box tab-print"]/div[last()]/a'), follow=True),
         Rule(LinkExtractor(
             restrict_xpaths='//div[@class="large-4 columns"]/div[@class="box"]/a[last()-1]'), follow=True),
-        Rule(LinkExtractor(
-            restrict_xpaths='//div[@class="large-3 small-12 columns"]/table[@class="eigenetabelle"]/td[last()]/a'), callback='parse_club')
+        Rule(LinkExtractor(allow=r'\/startseite\/verein\/(\d+)$'),
+             callback='parse_club')
     )
 
     # Spider specific settings
