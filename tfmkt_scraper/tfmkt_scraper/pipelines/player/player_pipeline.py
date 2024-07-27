@@ -12,50 +12,49 @@ class PlayerScraperPipeline:
         strip_fields(adapter=adapter)
 
         # Convert market value
-        value = adapter.get('current_mv')
-        if value:
-            adapter['current_mv'] = convert_mv(value=value)
-        else:
-            adapter['current_mv'] = 0
+        convert_market_value(value=adapter.get('current_mv'))
 
         # Convert club ID to int
         id_keys = ['id', 'current_club']
         convert_item_str_to_int(adapter=adapter, keys=id_keys)
 
         # Convert height to cm
-        value = adapter.get('height')
-        if value:
-            value = value.replace('m', '')
-            value = value.replace(',', '')
-            value = int(value)
-            adapter['height'] = value
+        self.convert_height(adapter=adapter)
 
         # Convert birth_date
-        # remove age
-        date = adapter.get('birth_date')
-        if date:
-            date = re.sub(r'\([^()]*\)', '', date).strip()
-            try:
-                date = datetime.datetime.strptime(
-                    date, '%b %d, %Y').strftime('%Y-%m-%d')
-                adapter['birth_date'] = date
-            except ValueError:
-                # If date only contains year, set it to None
-                adapter['birth_date'] = None
+        self.convert_date(
+            adapter=adapter, date_type='birth_date', date_format='%b %d, %Y')
 
         # Convert death_date
-        date = adapter.get('death_date')
+        self.convert_date(
+            adapter=adapter, date_type='death_date', date_format='%d.%m.%Y')
+
+        # Convert empty strings to None | '' -> None
+        convert_empty_strings_to_none(adapter=adapter)
+
+        return item
+
+    def convert_height(self, adapter: ItemAdapter) -> None:
+        value = adapter.get('height')
+        if value:
+            try:
+                value = value.replace('m', '')
+                value = value.replace(',', '')
+                value = value.strip()
+                value = int(value)
+                adapter['height'] = value
+            except ValueError as e:
+                print(f"Error converting value to integer: {e}")
+                adapter['height'] = None
+
+    def convert_date(self, adapter: ItemAdapter, date_type: str, date_format: str) -> None:
+        date = adapter.get(date_type)
         if date:
             date = re.sub(r'\([^()]*\)', '', date).strip()
             try:
                 date = datetime.datetime.strptime(
-                    date, '%d.%m.%Y').strftime('%Y-%m-%d')
-                adapter['death_date'] = date
+                    date, date_format).strftime('%Y-%m-%d')
+                adapter[date_type] = date
             except ValueError:
                 # If date only contains year, set it to None
-                adapter['death_date'] = None
-
-        # Convert empty strings to None | '' -> None
-        convert_emptystring_to_none(adapter=adapter)
-
-        return item
+                adapter[date_type] = None
