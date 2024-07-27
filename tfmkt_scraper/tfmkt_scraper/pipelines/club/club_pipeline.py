@@ -10,13 +10,7 @@ class ClubScrapperPipeline:
         strip_fields(adapter=adapter)
 
         # Convert market value
-        mv_keys = ['current_mv']
-        for mv_key in mv_keys:
-            value = adapter.get(mv_key)
-            if value:
-                adapter[mv_key] = convert_market_value(value=value)
-            else:
-                adapter[mv_key] = 0
+        adapter['current_mv'] = convert_market_value(value=adapter.get('current_mv'))
 
         # Convert club ID to int
         id_keys = ['id']

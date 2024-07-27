@@ -12,7 +12,7 @@ class PlayerScraperPipeline:
         strip_fields(adapter=adapter)
 
         # Convert market value
-        convert_market_value(value=adapter.get('current_mv'))
+        adapter['current_mv'] = convert_market_value(value=adapter.get('current_mv'))
 
         # Convert club ID to int
         id_keys = ['id', 'current_club']
